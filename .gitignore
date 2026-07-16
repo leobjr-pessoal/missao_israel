@@ -1,0 +1,8 @@
+bin/
+obj/
+.tmp/
+src/MissaoIsrael.Api/App_Data/
+src/MissaoIsrael.Api/wwwroot/uploads/
+*.user
+*.suo
+.vs/

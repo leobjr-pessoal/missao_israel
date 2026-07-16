@@ -1,0 +1,14 @@
+.git
+.agents
+.codex
+.tmp
+bin
+obj
+**/bin
+**/obj
+**/.build
+src/MissaoIsrael.Api/App_Data
+src/MissaoIsrael.Api/wwwroot/uploads
+*.user
+*.suo
+.vs

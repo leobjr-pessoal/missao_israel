@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <rect width="240" height="240" fill="#fff"/>
+  <path d="M20 20h70v70H20zM150 20h70v70h-70zM20 150h70v70H20z" fill="#112b2a"/>
+  <path d="M38 38h34v34H38zM168 38h34v34h-34zM38 168h34v34H38z" fill="#fff"/>
+  <path d="M110 22h20v21h-20zM111 62h40v20h-40zM103 101h24v20h-24zM137 100h23v23h-23zM178 110h40v20h-40zM100 142h20v36h-20zM129 147h23v20h-23zM169 150h20v40h-20zM197 174h22v22h-22zM124 197h31v22h-31z" fill="#112b2a"/>
+  <text x="120" y="132" font-family="Arial" font-size="16" text-anchor="middle" fill="#c08a2d">PIX</text>
+</svg>

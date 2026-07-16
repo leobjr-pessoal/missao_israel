@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: missao-israel
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    plan: starter
+    disk:
+      name: missao-israel-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: Storage__DataRoot
+        value: /var/data
+      - key: AdminAuth__Issuer
+        value: MissaoIsrael
+      - key: AdminAuth__Secret
+        sync: false
+      - key: AdminSeed__Email
+        sync: false
+      - key: AdminSeed__Name
+        value: Administrador
+      - key: AdminSeed__Password
+        sync: false

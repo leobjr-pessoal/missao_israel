@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Campanha transparente de arrecadação para envio pastoral a Israel.">
+  <meta name="theme-color" content="#062b55">
+  <title>Projeto Envio Israel</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Projeto Envio Israel">
+      <span class="brand-mark">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <circle class="logo-ring" cx="32" cy="32" r="27"/>
+          <circle class="logo-core" cx="32" cy="32" r="14"/>
+          <path class="logo-route" d="M16 39c7-14 19-21 33-21"/>
+          <path class="logo-plane" d="M20 40 47 17l-9 30-6-13-12 6Z"/>
+          <path class="logo-fold" d="M32 34 47 17"/>
+          <path class="logo-spark" d="M18 21h7m-3.5-3.5v7"/>
+        </svg>
+      </span>
+      <span><small>Projeto</small><strong id="brandName">Envio Israel</strong></span>
+      <i class="flag-mark" aria-hidden="true"></i>
+    </a>
+    <nav aria-label="Navegação principal">
+      <a href="#proposito">O Propósito</a>
+      <a href="#acompanhe">Acompanhe</a>
+      <a href="#contribuir">Faça Parte</a>
+      <a href="#mural">Mural de Envio</a>
+      <a href="#pastor">Palavra do Pastor</a>
+    </nav>
+    <a class="nav-cta" href="#contribuir">Já contribuí</a>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-inner">
+        <div class="hero-copyblock">
+          <p class="eyebrow" id="campaignName">PROJETO ENVIO ISRAEL</p>
+          <h1 id="campaignTitle">Existe um chamado. Existe uma missão. E nós podemos fazer parte desse envio.</h1>
+          <p class="hero-copy"><span class="plane-mark" aria-hidden="true"></span><span id="campaignDescription">Nem todos irão. Mas todos podem fazer parte do envio.</span></p>
+        </div>
+
+        <aside class="progress-card" id="acompanhe">
+          <span class="card-icon" aria-hidden="true">♡</span>
+          <p class="progress-label">Arrecadado até agora</p>
+          <strong class="raised" id="raisedAmount">R$ 0,00</strong>
+          <div class="progress-track">
+            <span id="progressBar"></span>
+            <b id="progressBubble">0%</b>
+          </div>
+          <div class="progress-meta">
+            <div><span>Meta</span><strong id="goalAmount">R$ 20.000,00</strong></div>
+            <div><span>Falta</span><strong id="remainingAmount">R$ 20.000,00</strong></div>
+          </div>
+          <a class="primary-btn wide" href="#contribuir">Quero fazer parte do envio</a>
+          <p class="safe-note">Ambiente seguro e transparente</p>
+          <p class="campaign-status" id="campaignStatus"></p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="purpose-band section" id="proposito">
+      <article class="purpose-poster">
+        <span class="star-watermark" aria-hidden="true">✡</span>
+        <div>
+          <p class="eyebrow">O Propósito</p>
+          <h2>O Propósito</h2>
+          <p id="purposeHeading">Por que enviar nosso pastor para Israel?</p>
+        </div>
+      </article>
+      <div class="purpose-content">
+        <div class="purpose-text" id="purposeText"></div>
+        <strong class="purpose-call" id="contributionHeading">Sua contribuição envia. Sua generosidade transforma.</strong>
+        <div class="pillars" id="pillarsList"></div>
+      </div>
+    </section>
+
+    <section class="contribution-band section" id="contribuir">
+      <div class="contribute-panel">
+        <div class="section-title">
+          <p class="eyebrow">Faça Parte</p>
+          <h2>Escolha um valor para contribuir</h2>
+        </div>
+        <div class="quick-values" id="quickValues"></div>
+        <label class="other-value">Outro valor
+          <input id="customAmount" type="number" min="1" step="0.01" placeholder="0,00" inputmode="decimal">
+        </label>
+        <div class="pix-row">
+          <img id="pixQr" alt="QR Code PIX">
+          <div>
+            <h3>Contribua via PIX</h3>
+            <p>Escaneie o QR Code ou copie a chave PIX.</p>
+            <div class="copy-row">
+              <input id="pixKey" readonly>
+              <button id="copyPix" title="Copiar chave PIX">Copiar</button>
+            </div>
+            <p class="feedback" id="copyFeedback"></p>
+            <button class="secondary-btn" id="openContribution">Já fiz minha contribuição</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="how-panel">
+        <h3>Como funciona?</h3>
+        <ol>
+          <li><strong>Você contribui</strong><span>Escolha o valor e faça sua contribuição via PIX.</span></li>
+          <li><strong>Você nos envia o comprovante</strong><span>Clique em "Já fiz minha contribuição" e envie seu comprovante.</span></li>
+          <li><strong>Validamos e atualizamos</strong><span>Após validação, seu valor é contabilizado na meta.</span></li>
+        </ol>
+        <p class="trust-line">Transparência, prestação de contas e compromisso com cada contribuição.</p>
+      </aside>
+    </section>
+
+    <section class="wall-band section" id="mural">
+      <div class="wall-head">
+        <div>
+          <p class="eyebrow">Mural de Envio</p>
+          <h2>Veja quem já está fazendo parte dessa missão</h2>
+        </div>
+        <button class="outline-btn" id="openWallContribution">Quero aparecer no mural</button>
+      </div>
+      <div class="wall-list" id="wallList"></div>
+    </section>
+
+    <section class="pastor-band section" id="pastor">
+      <div class="pastor-video">
+        <p class="eyebrow" id="pastorVideoTitle">Palavra do Pastor</p>
+        <h2 id="pastorVideoSubtitle">Assista uma mensagem especial</h2>
+        <div class="video-frame">
+          <iframe id="pastorVideo" title="Palavra do Pastor" allowfullscreen></iframe>
+          <video id="pastorVideoFile" class="hidden" controls playsinline preload="metadata"></video>
+        </div>
+      </div>
+      <blockquote id="bibleQuote">Romanos 10:15 · "E como pregarão, se não forem enviados?"</blockquote>
+    </section>
+
+    <footer class="site-footer">
+      <a class="brand" href="#home" aria-label="Projeto Envio Israel">
+        <span class="brand-mark">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <circle class="logo-ring" cx="32" cy="32" r="27"/>
+            <circle class="logo-core" cx="32" cy="32" r="14"/>
+            <path class="logo-route" d="M16 39c7-14 19-21 33-21"/>
+            <path class="logo-plane" d="M20 40 47 17l-9 30-6-13-12 6Z"/>
+            <path class="logo-fold" d="M32 34 47 17"/>
+            <path class="logo-spark" d="M18 21h7m-3.5-3.5v7"/>
+          </svg>
+        </span>
+        <span><small>Projeto</small><strong>Envio Israel</strong></span>
+        <i class="flag-mark" aria-hidden="true"></i>
+      </a>
+      <p>Nem todos irão. Mas todos podem fazer parte do envio.</p>
+      <div class="footer-contact">
+        <strong>Fale conosco</strong>
+        <span>(00) 00000-0000</span>
+        <span>contato@ministerio.com.br</span>
+        <a href="#admin" data-open-admin>Acesso administrativo</a>
+      </div>
+    </footer>
+
+    <section class="admin-shell hidden" id="admin">
+      <div class="section-head">
+        <p class="eyebrow">Administração</p>
+        <h2>Painel da campanha</h2>
+      </div>
+      <form class="login-panel" id="loginForm" autocomplete="on">
+        <input name="email" type="email" placeholder="E-mail" autocomplete="username" required>
+        <input name="password" type="password" placeholder="Senha" autocomplete="current-password" required>
+        <button class="primary-btn">Entrar</button>
+        <p id="loginMessage"></p>
+      </form>
+      <div class="admin-area hidden" id="adminArea">
+        <div class="admin-actions">
+          <button id="logoutBtn">Sair</button>
+          <button id="refreshAdmin">Atualizar</button>
+        </div>
+        <div class="dashboard" id="dashboard"></div>
+        <div class="admin-grid">
+          <section class="admin-panel">
+            <h3>Contribuições</h3>
+            <div class="filters">
+              <select id="statusFilter">
+                <option value="">Todas</option>
+                <option value="Pendente">Pendentes</option>
+                <option value="Aprovada">Aprovadas</option>
+                <option value="Rejeitada">Rejeitadas</option>
+              </select>
+              <input id="searchContribution" placeholder="Nome ou WhatsApp">
+            </div>
+            <div class="contribution-table" id="contributionTable"></div>
+          </section>
+          <section class="admin-panel">
+            <h3>Gestão da campanha</h3>
+            <form id="campaignForm" class="campaign-form"></form>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="contributionDialog">
+    <form id="contributionForm" method="dialog">
+      <div class="dialog-head">
+        <h3>Registrar contribuição</h3>
+        <button type="button" id="closeContribution" aria-label="Fechar">×</button>
+      </div>
+      <input type="hidden" name="campaignId" id="campaignId">
+      <label>Nome <input name="name" id="contributorName" autocomplete="name"></label>
+      <label>Valor da contribuição <input name="amount" id="contributionAmount" type="number" min="1" step="0.01" inputmode="decimal" required></label>
+      <label>WhatsApp <input name="phone" required placeholder="(00) 00000-0000" autocomplete="tel"></label>
+      <label>Comprovante <input name="receipt" type="file" accept=".jpg,.jpeg,.png,.pdf" required></label>
+      <label class="check"><input name="showOnWall" type="checkbox" checked> Deseja aparecer no mural?</label>
+      <label class="wall-extra">Mensagem para o mural <textarea name="wallMessage" maxlength="180" placeholder="Escreva uma mensagem curta. Ela será revisada antes de aparecer no mural."></textarea></label>
+      <label class="wall-extra">Foto para o mural <input name="wallImage" type="file" accept=".jpg,.jpeg,.png,.webp"><span class="asset-help">Opcional. A foto só aparecerá após validação do comprovante e da mensagem.</span></label>
+      <label class="check"><input name="isAnonymous" id="anonymousCheck" type="checkbox"> Contribuição anônima</label>
+      <button class="primary-btn">Enviar comprovante</button>
+      <p id="contributionMessage"></p>
+    </form>
+  </dialog>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
