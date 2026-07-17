@@ -149,16 +149,16 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   border: 1px solid #d7e1ec;
   border-radius: 2px;
   background:
-    linear-gradient(#2769b3 0 20%, #fff 20% 80%, #2769b3 80%),
+    linear-gradient(#fff 0 13%, #0b43b8 13% 29%, #fff 29% 71%, #0b43b8 71% 87%, #fff 87%),
     #fff;
   box-shadow: 0 0 0 1px rgba(255,255,255,.35);
 }
 
 .flag-mark::before {
   content: "";
-  width: 10px;
-  height: 10px;
-  background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 56'%3E%3Cg fill='none' stroke='%232769b3' stroke-width='8' stroke-linejoin='miter'%3E%3Cpath d='M32 4 58 52H6L32 4Z'/%3E%3Cpath d='M32 52 6 4h52L32 52Z'/%3E%3C/g%3E%3C/svg%3E");
+  width: 9px;
+  height: 9px;
+  background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 224'%3E%3Cg fill='%230b43b8' fill-rule='evenodd'%3E%3Cpath d='M128 0 256 224H0L128 0Zm0 50L43 199h170L128 50Z'/%3E%3Cpath d='M128 224 0 0h256L128 224Zm0-50 85-149H43l85 149Z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 nav {
