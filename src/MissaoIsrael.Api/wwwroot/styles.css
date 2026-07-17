@@ -972,7 +972,30 @@ dialog::backdrop { background: rgba(5, 15, 28, .72); }
   }
   .section { width: min(100% - 28px, 1440px); }
   .purpose-band { gap: 22px; }
-  .purpose-poster { min-height: 220px; }
+  .purpose-poster {
+    min-height: 220px;
+    justify-content: flex-start;
+    padding: 26px 22px;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,.9) 58%, rgba(255,255,255,.95)),
+      url("/assets/jerusalem-purpose.png") center/cover no-repeat;
+  }
+  .purpose-poster > div {
+    max-width: 68%;
+    min-width: 0;
+  }
+  .purpose-poster h2 {
+    max-width: 100%;
+    font-size: clamp(2.2rem, 13vw, 3.15rem);
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  .purpose-poster p:last-child {
+    max-width: 100%;
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+  .star-watermark { display: none; }
   .pillars { grid-template-columns: repeat(2, 1fr); }
   .contribution-band, .wall-band { padding: 22px 16px; }
   .quick-values { grid-template-columns: repeat(2, 1fr); }
