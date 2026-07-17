@@ -405,19 +405,20 @@ async function loadContributions() {
   for (const item of items) {
     const row = document.createElement("article");
     row.className = "contribution-row";
+    const isPending = item.status === "Pendente" || item.status === 0;
     const wallReview = item.showOnWall
       ? `<div class="wall-review">
           <small><strong>Mural:</strong> revise a mensagem, a foto e o comprovante antes de aprovar.</small>
           ${item.wallMessage ? `<p>${escapeHtml(item.wallMessage)}</p>` : "<small>Sem mensagem para o mural.</small>"}
-          ${item.wallImageOriginalName ? `<button data-wall-image="${item.id}">Visualizar foto do mural</button>` : "<small>Sem foto para o mural.</small>"}
+          ${item.wallImageOriginalName ? `<button class="admin-link-btn" data-wall-image="${item.id}">Visualizar foto do mural</button>` : "<small>Sem foto para o mural.</small>"}
         </div>`
       : "<small>Não deseja aparecer no mural.</small>";
     const receiptAction = item.receiptOriginalName
-      ? `<button data-receipt="${item.id}">Visualizar comprovante</button>`
+      ? `<button class="action-btn" data-receipt="${item.id}">Comprovante</button>`
       : "<small>Sem comprovante</small>";
-    const reviewActions = item.status === "Pendente"
-      ? `<button class="ok" data-approve="${item.id}">Aprovar e publicar</button>
-        <button class="danger" data-reject="${item.id}">Rejeitar</button>`
+    const reviewActions = isPending
+      ? `<button class="action-btn ok" data-approve="${item.id}">Aprovar</button>
+        <button class="action-btn danger" data-reject="${item.id}">Rejeitar</button>`
       : "";
     row.innerHTML = `
       <div>
