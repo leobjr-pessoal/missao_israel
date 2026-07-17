@@ -14,7 +14,7 @@ public static class DependencyInjection
         {
             adminPassword = isDevelopment
                 ? "admin123"
-                : throw new InvalidOperationException("Configure AdminSeed:Password para criar o primeiro usuário administrativo.");
+                : null;
         }
 
         services.AddSingleton(new JsonDataStore(new JsonDataStoreOptions(

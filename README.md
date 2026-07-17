@@ -35,7 +35,7 @@ Credenciais locais padrão, criadas apenas quando `App_Data/store.json` ainda n�
 ## Checklist antes de publicar
 
 1. Configure `AdminAuth__Secret` com pelo menos 32 caracteres.
-2. Configure `AdminSeed__Email`, `AdminSeed__Name` e `AdminSeed__Password` antes do primeiro start em produção.
+2. Configure `AdminSeed__Email`, `AdminSeed__Name` e `AdminSeed__Password` antes de usar o painel administrativo em produção.
 3. Entre no painel admin e substitua chave PIX, QR Code PIX, telefone/e-mail de contato, imagem principal e URL do vídeo.
 4. Revise meta financeira, textos da campanha e status. Mantenha `Inativa` até tudo estar conferido.
 5. Garanta backup/persistência externa para `App_Data` ou troque a persistência JSON por banco antes de escalar o uso.
@@ -60,6 +60,8 @@ Passos:
 4. Confirme que `Storage__DataRoot=/var/data`.
 5. Faça o primeiro deploy e acesse `/api/health`.
 6. Entre em `/#admin`, revise a campanha, configure PIX, imagens, vídeo e só então mude o status para `Ativa`.
+
+Se `AdminSeed__Password` ainda não estiver configurado, o site público sobe normalmente, mas nenhum usuário administrativo é criado. Ao configurar o secret e redeployar, o primeiro admin é criado se ainda não existir nenhum usuário no `store.json`.
 
 Observação: o persistent disk do Render exige plano pago e impede múltiplas instâncias usando o mesmo disco. Para escala maior, migre JSON/upload local para PostgreSQL e storage externo.
 

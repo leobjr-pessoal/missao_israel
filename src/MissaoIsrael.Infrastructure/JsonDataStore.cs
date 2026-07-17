@@ -45,18 +45,20 @@ public sealed class JsonDataStore(JsonDataStoreOptions options)
     {
         if (File.Exists(_path))
         {
-            await using var stream = File.OpenRead(_path);
-            var loaded = await JsonSerializer.DeserializeAsync<AppState>(stream, _jsonOptions, cancellationToken);
-            if (loaded is not null) return loaded;
+            AppState? loaded;
+            await using (var stream = File.OpenRead(_path))
+            {
+                loaded = await JsonSerializer.DeserializeAsync<AppState>(stream, _jsonOptions, cancellationToken);
+            }
+            if (loaded is not null)
+            {
+                await EnsureAdminSeedAsync(loaded, cancellationToken);
+                return loaded;
+            }
         }
 
         var state = new AppState();
-        state.AdminUsers.Add(new AdminUser
-        {
-            Email = options.AdminEmail,
-            Name = options.AdminName,
-            PasswordHash = AuthService.HashPassword(options.AdminPassword)
-        });
+        SeedAdminIfConfigured(state);
         await using var create = File.Create(_path);
         await JsonSerializer.SerializeAsync(create, state, _jsonOptions, cancellationToken);
         return state;
@@ -73,6 +75,25 @@ public sealed class JsonDataStore(JsonDataStoreOptions options)
         Directory.CreateDirectory(dataRootPath);
         return Path.Combine(dataRootPath, "store.json");
     }
+
+    private async Task EnsureAdminSeedAsync(AppState state, CancellationToken cancellationToken)
+    {
+        if (!SeedAdminIfConfigured(state)) return;
+        await using var stream = File.Create(_path);
+        await JsonSerializer.SerializeAsync(stream, state, _jsonOptions, cancellationToken);
+    }
+
+    private bool SeedAdminIfConfigured(AppState state)
+    {
+        if (state.AdminUsers.Count > 0 || string.IsNullOrWhiteSpace(options.AdminPassword)) return false;
+        state.AdminUsers.Add(new AdminUser
+        {
+            Email = options.AdminEmail,
+            Name = options.AdminName,
+            PasswordHash = AuthService.HashPassword(options.AdminPassword)
+        });
+        return true;
+    }
 }
 
-public sealed record JsonDataStoreOptions(string DataRootPath, string AdminEmail, string AdminName, string AdminPassword);
+public sealed record JsonDataStoreOptions(string DataRootPath, string AdminEmail, string AdminName, string? AdminPassword);
