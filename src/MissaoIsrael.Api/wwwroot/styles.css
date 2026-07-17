@@ -468,9 +468,13 @@ h1 .accent { color: var(--gold-2); }
   position: absolute;
   right: 52px;
   top: 34px;
-  color: rgba(8, 47, 90, .14);
-  font-size: 7.4rem;
-  line-height: 1;
+  width: 118px;
+  height: 104px;
+  fill: none;
+  stroke: rgba(8, 47, 90, .14);
+  stroke-width: 7;
+  stroke-linejoin: round;
+  pointer-events: none;
 }
 
 .purpose-text {
@@ -1039,7 +1043,15 @@ dialog::backdrop { background: rgba(5, 15, 28, .72); }
     font-size: 1rem;
     line-height: 1.25;
   }
-  .star-watermark { display: none; }
+  .star-watermark {
+    display: block;
+    right: 46px;
+    top: 28px;
+    width: 82px;
+    height: 72px;
+    stroke-width: 8;
+    opacity: .9;
+  }
   .pillars { grid-template-columns: repeat(2, 1fr); }
   .contribution-band, .wall-band { padding: 22px 16px; }
   .quick-values { grid-template-columns: repeat(2, 1fr); }
