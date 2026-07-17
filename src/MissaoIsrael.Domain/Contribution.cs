@@ -13,6 +13,7 @@ public sealed class Contribution
     public string? WallImagePath { get; set; }
     public string? WallImageOriginalName { get; set; }
     public bool IsAnonymous { get; set; }
+    public bool IsAmountAnonymous { get; set; }
     public bool ShowOnWall { get; set; }
     public ContributionStatus Status { get; set; } = ContributionStatus.Pendente;
     public string? RejectionReason { get; set; }

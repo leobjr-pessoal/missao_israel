@@ -200,7 +200,7 @@ function renderWall() {
     node.innerHTML = `
       ${item.imageUrl ? `<img class="wall-photo" src="${escapeAttr(item.imageUrl)}" alt="${escapeAttr(item.displayName)}">` : `<div class="wall-avatar">${getInitials(item.displayName)}</div>`}
       <strong class="wall-name">${escapeHtml(item.displayName)}</strong>
-      <strong class="wall-amount">${money(item.amount)}</strong>
+      <strong class="wall-amount">${item.isAmountAnonymous ? "Valor não divulgado" : money(item.amount)}</strong>
       ${item.message ? `<p>${escapeHtml(item.message)}</p>` : ""}
       <span>${relativeTime(item.approvedAt)}</span>`;
     wall.appendChild(node);
@@ -290,7 +290,10 @@ function syncWallExtras() {
     label.classList.toggle("hidden", !enabled);
     label.querySelectorAll("input, textarea").forEach((input) => {
       input.disabled = !enabled;
-      if (!enabled) input.value = "";
+      if (!enabled) {
+        if (input.type === "checkbox") input.checked = false;
+        else input.value = "";
+      }
     });
   });
 }
@@ -300,6 +303,7 @@ $("#contributionForm").addEventListener("submit", async (event) => {
   const form = event.currentTarget;
   const data = new FormData(form);
   data.set("isAnonymous", form.isAnonymous.checked);
+  data.set("isAmountAnonymous", form.isAmountAnonymous.checked && form.showOnWall.checked);
   data.set("showOnWall", form.showOnWall.checked);
   data.set("amount", Number(data.get("amount")).toString());
   try {
@@ -409,7 +413,7 @@ async function loadContributions() {
       : "<small>Não deseja aparecer no mural.</small>";
     row.innerHTML = `
       <div>
-        <strong>${escapeHtml(item.isAnonymous ? "Contribuição Anônima" : item.name || "Sem nome")} · ${money(item.amount)}</strong>
+        <strong>${escapeHtml(item.isAnonymous ? "Contribuição Anônima" : item.name || "Sem nome")} · ${money(item.amount)}${item.isAmountAnonymous ? " · valor oculto no mural" : ""}</strong>
         <small>${escapeHtml(item.phone)} · ${item.status} · ${new Date(item.createdAt).toLocaleString("pt-BR")}</small>
         ${item.rejectionReason ? `<small>Motivo: ${escapeHtml(item.rejectionReason)}</small>` : ""}
         ${wallReview}

@@ -104,6 +104,7 @@ app.MapPost("/api/contribution", async (HttpRequest request, ContributionService
             form["phone"]!,
             amount,
             bool.TryParse(form["isAnonymous"], out var anonymous) && anonymous,
+            bool.TryParse(form["isAmountAnonymous"], out var amountAnonymous) && amountAnonymous,
             bool.TryParse(form["showOnWall"], out var show) && show,
             form["wallMessage"]);
 

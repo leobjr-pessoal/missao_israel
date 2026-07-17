@@ -35,6 +35,7 @@ public sealed class ContributionService(ICampaignRepository campaigns, IContribu
             WallImagePath = storedWallImage?.Path,
             WallImageOriginalName = storedWallImage?.OriginalName,
             IsAnonymous = request.IsAnonymous,
+            IsAmountAnonymous = request.IsAmountAnonymous,
             ShowOnWall = request.ShowOnWall,
             Status = ContributionStatus.Pendente
         };
@@ -115,8 +116,8 @@ public sealed class ContributionService(ICampaignRepository campaigns, IContribu
         value.Contains('@');
 
     private static ContributionAdminDto ToAdminDto(Contribution c) =>
-        new(c.Id, c.Name, c.Phone, c.Amount, c.IsAnonymous, c.ShowOnWall, c.Status, c.RejectionReason, c.ReceiptOriginalName, c.WallMessage, c.WallImageOriginalName, c.CreatedAt, c.ApprovedAt);
+        new(c.Id, c.Name, c.Phone, c.Amount, c.IsAnonymous, c.IsAmountAnonymous, c.ShowOnWall, c.Status, c.RejectionReason, c.ReceiptOriginalName, c.WallMessage, c.WallImageOriginalName, c.CreatedAt, c.ApprovedAt);
 }
 
-public sealed record RegisterContributionRequest(Guid CampaignId, string? Name, string Phone, decimal Amount, bool IsAnonymous, bool ShowOnWall, string? WallMessage);
+public sealed record RegisterContributionRequest(Guid CampaignId, string? Name, string Phone, decimal Amount, bool IsAnonymous, bool IsAmountAnonymous, bool ShowOnWall, string? WallMessage);
 public sealed record WallImageUpload(Stream Stream, string FileName, string ContentType);

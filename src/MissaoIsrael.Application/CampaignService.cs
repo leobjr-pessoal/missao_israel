@@ -86,6 +86,7 @@ public sealed class CampaignService(ICampaignRepository campaigns, IContribution
             wall.Select(c => new WallContributionDto(
                 c.IsAnonymous ? "Contribuição Anônima" : c.Name ?? "Contribuição",
                 c.Amount,
+                c.IsAmountAnonymous,
                 c.WallMessage,
                 string.IsNullOrWhiteSpace(c.WallImagePath) ? null : $"/api/contribution/{c.Id}/wall-image",
                 c.ApprovedAt ?? c.UpdatedAt)).ToList());
