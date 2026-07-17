@@ -464,15 +464,6 @@ h1 .accent { color: var(--gold-2); }
   font-size: 1.14rem;
 }
 
-.star-watermark {
-  position: absolute;
-  right: 52px;
-  top: 34px;
-  width: 112px;
-  height: 112px;
-  pointer-events: none;
-}
-
 .purpose-text {
   color: #1e293b;
   font-size: .98rem;
@@ -1038,14 +1029,6 @@ dialog::backdrop { background: rgba(5, 15, 28, .72); }
     max-width: 100%;
     font-size: 1rem;
     line-height: 1.25;
-  }
-  .star-watermark {
-    display: block;
-    right: 46px;
-    top: 28px;
-    width: 82px;
-    height: 82px;
-    opacity: .9;
   }
   .pillars { grid-template-columns: repeat(2, 1fr); }
   .contribution-band, .wall-band { padding: 22px 16px; }
