@@ -180,6 +180,20 @@
         <div class="admin-grid">
           <section class="admin-panel">
             <h3>Contribuições</h3>
+            <form id="manualContributionForm" class="manual-contribution-form">
+              <strong>Lançamento manual</strong>
+              <div class="manual-grid">
+                <label>Valor recebido <input name="amount" type="number" min="1" step="0.01" inputmode="decimal" required></label>
+                <label>Nome <input name="name" autocomplete="off"></label>
+                <label>WhatsApp <input name="phone" placeholder="Opcional" autocomplete="off"></label>
+              </div>
+              <label class="check"><input name="isAnonymous" type="checkbox"> Nome anônimo no mural</label>
+              <label class="check"><input name="showOnWall" type="checkbox"> Publicar no mural</label>
+              <label class="check manual-wall-extra hidden"><input name="isAmountAnonymous" type="checkbox"> Não mostrar valor no mural</label>
+              <label class="manual-wall-extra hidden">Mensagem para o mural <textarea name="wallMessage" maxlength="180" placeholder="Opcional. Será publicada após o lançamento."></textarea></label>
+              <button class="secondary-btn">Atualizar progresso agora</button>
+              <p class="feedback" id="manualContributionMessage"></p>
+            </form>
             <div class="filters">
               <select id="statusFilter">
                 <option value="">Todas</option>

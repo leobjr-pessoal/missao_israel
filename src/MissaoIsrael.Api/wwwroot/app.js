@@ -349,6 +349,7 @@ $("#logoutBtn").addEventListener("click", () => {
 $("#refreshAdmin").addEventListener("click", loadAdmin);
 $("#statusFilter").addEventListener("change", loadContributions);
 $("#searchContribution").addEventListener("input", debounce(loadContributions, 300));
+$("#manualContributionForm").showOnWall.addEventListener("change", syncManualWallExtras);
 document.querySelectorAll("[data-open-admin]").forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
@@ -411,6 +412,13 @@ async function loadContributions() {
           ${item.wallImageOriginalName ? `<button data-wall-image="${item.id}">Visualizar foto do mural</button>` : "<small>Sem foto para o mural.</small>"}
         </div>`
       : "<small>Não deseja aparecer no mural.</small>";
+    const receiptAction = item.receiptOriginalName
+      ? `<button data-receipt="${item.id}">Visualizar comprovante</button>`
+      : "<small>Sem comprovante</small>";
+    const reviewActions = item.status === "Pendente"
+      ? `<button class="ok" data-approve="${item.id}">Aprovar e publicar</button>
+        <button class="danger" data-reject="${item.id}">Rejeitar</button>`
+      : "";
     row.innerHTML = `
       <div>
         <strong>${escapeHtml(item.isAnonymous ? "Contribuição Anônima" : item.name || "Sem nome")} · ${money(item.amount)}${item.isAmountAnonymous ? " · valor oculto no mural" : ""}</strong>
@@ -419,9 +427,8 @@ async function loadContributions() {
         ${wallReview}
       </div>
       <div class="row-actions">
-        <button data-receipt="${item.id}">Visualizar comprovante</button>
-        <button class="ok" data-approve="${item.id}">Aprovar e publicar</button>
-        <button class="danger" data-reject="${item.id}">Rejeitar</button>
+        ${receiptAction}
+        ${reviewActions}
       </div>`;
     table.appendChild(row);
   }
@@ -453,6 +460,51 @@ $("#contributionTable").addEventListener("click", async (event) => {
     }
   } catch (error) {
     alert(error.message);
+  }
+});
+
+function syncManualWallExtras() {
+  const form = $("#manualContributionForm");
+  const enabled = form.showOnWall.checked;
+  document.querySelectorAll(".manual-wall-extra").forEach((label) => {
+    label.classList.toggle("hidden", !enabled);
+    label.querySelectorAll("input, textarea").forEach((input) => {
+      input.disabled = !enabled;
+      if (!enabled) {
+        if (input.type === "checkbox") input.checked = false;
+        else input.value = "";
+      }
+    });
+  });
+}
+
+$("#manualContributionForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = form.querySelector("button");
+  const message = $("#manualContributionMessage");
+  const body = Object.fromEntries(new FormData(form));
+  body.amount = Number(body.amount);
+  body.isAnonymous = form.isAnonymous.checked;
+  body.showOnWall = form.showOnWall.checked;
+  body.isAmountAnonymous = form.isAmountAnonymous.checked && form.showOnWall.checked;
+  if (!body.showOnWall) body.wallMessage = "";
+  button.disabled = true;
+  message.textContent = "Lançando...";
+  try {
+    await api("/api/admin/contribution/manual", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+    form.reset();
+    syncManualWallExtras();
+    message.textContent = "Valor lançado e somado ao progresso, sem etapa de aprovação.";
+    await Promise.all([loadCampaign(), loadAdmin()]);
+  } catch (error) {
+    message.textContent = error.message;
+  } finally {
+    button.disabled = false;
   }
 });
 
@@ -607,6 +659,7 @@ function debounce(fn, wait) {
 }
 
 syncWallExtras();
+syncManualWallExtras();
 
 loadCampaign().then(() => {
   if (location.hash === "#admin") showAdminPanel();

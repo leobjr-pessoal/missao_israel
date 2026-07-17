@@ -216,6 +216,12 @@ admin.MapGet("/contribution", async (string? status, string? search, Contributio
     return Results.Ok(await service.ListAdminAsync(parsed, search, ct));
 });
 
+admin.MapPost("/contribution/manual", async (ManualContributionRequest request, ContributionService service, CancellationToken ct) =>
+{
+    try { return Results.Created("/api/admin/contribution", await service.RegisterManualAsync(request, ct)); }
+    catch (InvalidOperationException ex) { return Results.BadRequest(new { message = ex.Message }); }
+});
+
 admin.MapGet("/contribution/{id:guid}", async (Guid id, ContributionService service, CancellationToken ct) =>
 {
     var item = await service.GetAdminAsync(id, ct);

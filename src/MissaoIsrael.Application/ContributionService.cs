@@ -49,6 +49,32 @@ public sealed class ContributionService(ICampaignRepository campaigns, IContribu
         return items.Select(ToAdminDto).ToList();
     }
 
+    public async Task<Contribution> RegisterManualAsync(ManualContributionRequest request, CancellationToken cancellationToken = default)
+    {
+        var campaign = await campaigns.GetDefaultAsync(cancellationToken);
+        ValidateManual(request);
+        var now = DateTimeOffset.UtcNow;
+        var contribution = new Contribution
+        {
+            CampaignId = campaign.Id,
+            Name = request.IsAnonymous ? null : request.Name?.Trim(),
+            Phone = string.IsNullOrWhiteSpace(request.Phone) ? "Lançamento manual" : request.Phone.Trim(),
+            Amount = request.Amount,
+            ReceiptPath = string.Empty,
+            ReceiptOriginalName = string.Empty,
+            WallMessage = request.ShowOnWall ? NormalizeWallMessage(request.WallMessage) : null,
+            IsAnonymous = request.IsAnonymous,
+            IsAmountAnonymous = request.IsAmountAnonymous,
+            ShowOnWall = request.ShowOnWall,
+            Status = ContributionStatus.Aprovada,
+            ApprovedAt = now,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
+        await contributions.AddAsync(contribution, cancellationToken);
+        return contribution;
+    }
+
     public async Task<ContributionAdminDto?> GetAdminAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var item = await contributions.GetByIdAsync(id, cancellationToken);
@@ -79,6 +105,7 @@ public sealed class ContributionService(ICampaignRepository campaigns, IContribu
     public async Task<(Stream Stream, string FileName)> OpenReceiptAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var item = await contributions.GetByIdAsync(id, cancellationToken) ?? throw new InvalidOperationException("Contribuição não encontrada.");
+        if (string.IsNullOrWhiteSpace(item.ReceiptPath)) throw new InvalidOperationException("Comprovante não disponível para este lançamento.");
         return (await receiptStorage.OpenReadAsync(item.ReceiptPath, cancellationToken), item.ReceiptOriginalName);
     }
 
@@ -107,6 +134,16 @@ public sealed class ContributionService(ICampaignRepository campaigns, IContribu
         if (!AllowedWallImageExtensions.Contains(Path.GetExtension(wallImage.FileName).ToLowerInvariant())) throw new InvalidOperationException("Formato de foto inválido.");
     }
 
+    private static void ValidateManual(ManualContributionRequest request)
+    {
+        if (request.Amount <= 0) throw new InvalidOperationException("Informe um valor de contribuição válido.");
+        if (request.ShowOnWall && !request.IsAnonymous && string.IsNullOrWhiteSpace(request.Name))
+            throw new InvalidOperationException("Informe o nome ou marque contribuição anônima para publicar no mural.");
+        var message = NormalizeWallMessage(request.WallMessage);
+        if (message?.Length > MaxWallMessageLength) throw new InvalidOperationException($"A mensagem do mural deve ter até {MaxWallMessageLength} caracteres.");
+        if (message is not null && ContainsUnsafeMessageContent(message)) throw new InvalidOperationException("A mensagem do mural não deve conter links ou dados sensíveis.");
+    }
+
     private static string? NormalizeWallMessage(string? value) => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
 
     private static bool ContainsUnsafeMessageContent(string value) =>
@@ -120,4 +157,5 @@ public sealed class ContributionService(ICampaignRepository campaigns, IContribu
 }
 
 public sealed record RegisterContributionRequest(Guid CampaignId, string? Name, string Phone, decimal Amount, bool IsAnonymous, bool IsAmountAnonymous, bool ShowOnWall, string? WallMessage);
+public sealed record ManualContributionRequest(string? Name, string? Phone, decimal Amount, bool IsAnonymous, bool IsAmountAnonymous, bool ShowOnWall, string? WallMessage);
 public sealed record WallImageUpload(Stream Stream, string FileName, string ContentType);
