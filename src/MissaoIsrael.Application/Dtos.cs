@@ -37,7 +37,11 @@ public sealed record DashboardDto(
     decimal RemainingAmount,
     decimal Percent,
     int ApprovedContributions,
-    int PendingContributions);
+    int PendingContributions,
+    CampaignStatus Status,
+    DateTimeOffset StartedAt,
+    DateTimeOffset? FinishedAt,
+    int CampaignDays);
 
 public sealed record ContributionAdminDto(
     Guid Id,

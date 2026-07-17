@@ -20,7 +20,20 @@ public sealed class CampaignService(ICampaignRepository campaigns, IContribution
         var totals = await contributions.GetTotalsAsync(campaign.Id, cancellationToken);
         var remaining = Math.Max(0, campaign.GoalAmount - totals.RaisedAmount);
         var percent = campaign.GoalAmount <= 0 ? 0 : Math.Round(totals.RaisedAmount / campaign.GoalAmount * 100, 2);
-        return new DashboardDto(campaign.GoalAmount, totals.RaisedAmount, remaining, percent, totals.ApprovedCount, totals.PendingCount);
+        var finishedAt = campaign.Status == CampaignStatus.Finalizada ? campaign.UpdatedAt : (DateTimeOffset?)null;
+        var reportEnd = finishedAt ?? DateTimeOffset.UtcNow;
+        var campaignDays = Math.Max(1, (int)Math.Ceiling((reportEnd - campaign.CreatedAt).TotalDays));
+        return new DashboardDto(
+            campaign.GoalAmount,
+            totals.RaisedAmount,
+            remaining,
+            percent,
+            totals.ApprovedCount,
+            totals.PendingCount,
+            campaign.Status,
+            campaign.CreatedAt,
+            finishedAt,
+            campaignDays);
     }
 
     public Task<Campaign> GetDefaultAsync(CancellationToken cancellationToken = default) => campaigns.GetDefaultAsync(cancellationToken);

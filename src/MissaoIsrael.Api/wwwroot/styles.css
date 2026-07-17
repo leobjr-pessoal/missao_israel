@@ -842,6 +842,51 @@ blockquote::before {
 .dashboard-card span { display: block; color: var(--muted); font-size: .83rem; }
 .dashboard-card strong { display: block; margin-top: 6px; font-size: 1.35rem; }
 
+.final-report {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 20px;
+  padding: 18px;
+  border: 1px solid rgba(241,196,99,.35);
+  border-radius: 8px;
+  color: var(--white);
+  background: linear-gradient(135deg, rgba(6,43,85,.98), rgba(9,64,113,.92));
+  box-shadow: 0 12px 26px rgba(0,0,0,.16);
+}
+
+.final-report h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.report-grid article {
+  min-height: 76px;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 8px;
+  background: rgba(255,255,255,.08);
+}
+
+.report-grid span {
+  display: block;
+  color: rgba(255,255,255,.76);
+  font-size: .76rem;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.report-grid strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 1.08rem;
+}
+
 .admin-grid {
   display: grid;
   grid-template-columns: 1.05fr .95fr;

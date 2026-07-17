@@ -222,6 +222,11 @@ function relativeTime(date) {
   return `Há ${days} dia${days > 1 ? "s" : ""}`;
 }
 
+function dateOnly(date) {
+  if (!date) return "-";
+  return new Date(date).toLocaleDateString("pt-BR");
+}
+
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
 }
@@ -390,6 +395,29 @@ async function loadDashboard() {
     ["Aprovadas", dashboard.approvedContributions],
     ["Pendentes", dashboard.pendingContributions]
   ].map(([label, value]) => `<article class="dashboard-card"><span>${label}</span><strong>${value}</strong></article>`).join("");
+  renderFinalReport(dashboard);
+}
+
+function renderFinalReport(dashboard) {
+  const report = $("#finalReport");
+  const isFinished = dashboard.status === "Finalizada" || dashboard.status === 1;
+  report.classList.toggle("hidden", !isFinished);
+  if (!isFinished) {
+    report.innerHTML = "";
+    return;
+  }
+  report.innerHTML = `
+    <div>
+      <p class="eyebrow">Relatório final</p>
+      <h3>Campanha encerrada</h3>
+    </div>
+    <div class="report-grid">
+      <article><span>Período</span><strong>${dateOnly(dashboard.startedAt)} até ${dateOnly(dashboard.finishedAt)}</strong></article>
+      <article><span>Tempo de campanha</span><strong>${dashboard.campaignDays} dia${dashboard.campaignDays === 1 ? "" : "s"}</strong></article>
+      <article><span>Total arrecadado</span><strong>${money(dashboard.raisedAmount)}</strong></article>
+      <article><span>Participantes</span><strong>${dashboard.approvedContributions}</strong></article>
+      <article><span>Pendências</span><strong>${dashboard.pendingContributions}</strong></article>
+    </div>`;
 }
 
 async function loadContributions() {
