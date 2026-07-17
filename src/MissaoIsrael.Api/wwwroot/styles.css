@@ -470,9 +470,9 @@ h1 .accent { color: var(--gold-2); }
   top: 34px;
   width: 118px;
   height: 104px;
-  fill: none;
-  stroke: rgba(8, 47, 90, .14);
-  stroke-width: 7;
+  fill: rgba(8, 47, 90, .12);
+  stroke: rgba(8, 47, 90, .08);
+  stroke-width: 2;
   stroke-linejoin: round;
   pointer-events: none;
 }
@@ -1049,7 +1049,7 @@ dialog::backdrop { background: rgba(5, 15, 28, .72); }
     top: 28px;
     width: 82px;
     height: 72px;
-    stroke-width: 8;
+    stroke-width: 2;
     opacity: .9;
   }
   .pillars { grid-template-columns: repeat(2, 1fr); }
