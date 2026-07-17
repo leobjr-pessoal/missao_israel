@@ -266,6 +266,17 @@ $("#openWallContribution").addEventListener("click", () => {
 });
 
 $("#closeContribution").addEventListener("click", () => $("#contributionDialog").close());
+$("#closePreview").addEventListener("click", closePreviewDialog);
+$("#adminPreviewDialog").addEventListener("close", () => {
+  const url = $("#adminPreviewDialog").dataset.objectUrl;
+  if (url) URL.revokeObjectURL(url);
+  $("#adminPreviewDialog").dataset.objectUrl = "";
+  $("#previewBody").innerHTML = "";
+});
+
+function closePreviewDialog() {
+  $("#adminPreviewDialog").close();
+}
 
 $("#contributionForm").showOnWall.addEventListener("change", syncWallExtras);
 
@@ -419,7 +430,7 @@ $("#contributionTable").addEventListener("click", async (event) => {
   const reject = event.target.closest("[data-reject]");
   try {
     if (receipt) await openReceipt(receipt.dataset.receipt);
-    if (wallImage) await openProtectedFile(`/api/admin/contribution/${wallImage.dataset.wallImage}/wall-image`, "Não foi possível abrir a foto do mural.");
+    if (wallImage) await openProtectedFile(`/api/admin/contribution/${wallImage.dataset.wallImage}/wall-image`, "Foto do mural", "Não foi possível abrir a foto do mural.");
     if (approve) {
       const confirmed = confirm("Confirma que o comprovante procede e que a mensagem/foto podem ser publicadas no mural?");
       if (!confirmed) return;
@@ -442,18 +453,43 @@ $("#contributionTable").addEventListener("click", async (event) => {
 });
 
 async function openReceipt(id) {
-  await openProtectedFile(`/api/admin/contribution/${id}/receipt`, "Não foi possível abrir o comprovante.");
+  await openProtectedFile(`/api/admin/contribution/${id}/receipt`, "Comprovante", "Não foi possível abrir o comprovante.");
 }
 
-async function openProtectedFile(path, errorMessage) {
+async function openProtectedFile(path, title, errorMessage) {
   const response = await fetch(path, {
     headers: { Authorization: `Bearer ${state.token}` }
   });
   if (!response.ok) throw new Error(errorMessage);
   const blob = await response.blob();
   const url = URL.createObjectURL(blob);
-  window.open(url, "_blank", "noopener");
-  setTimeout(() => URL.revokeObjectURL(url), 60000);
+  showPreview(title, blob, url);
+}
+
+function showPreview(title, blob, url) {
+  const dialog = $("#adminPreviewDialog");
+  const body = $("#previewBody");
+  $("#previewTitle").textContent = title;
+  $("#openPreviewNewTab").href = url;
+  body.innerHTML = "";
+  if (blob.type.startsWith("image/")) {
+    const image = document.createElement("img");
+    image.src = url;
+    image.alt = title;
+    body.appendChild(image);
+  } else if (blob.type === "application/pdf") {
+    const frame = document.createElement("iframe");
+    frame.src = url;
+    frame.title = title;
+    body.appendChild(frame);
+  } else {
+    const frame = document.createElement("iframe");
+    frame.src = url;
+    frame.title = title;
+    body.appendChild(frame);
+  }
+  dialog.dataset.objectUrl = url;
+  dialog.showModal();
 }
 
 async function loadCampaignForm() {

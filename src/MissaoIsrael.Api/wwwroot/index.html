@@ -156,8 +156,7 @@
       <p>Nem todos irão. Mas todos podem fazer parte do envio.</p>
       <div class="footer-contact">
         <strong>Fale conosco</strong>
-        <span>(00) 00000-0000</span>
-        <span>contato@ministerio.com.br</span>
+        <a href="https://wa.me/5511952514995" target="_blank" rel="noopener">(11) 95251-4995 - Pastora Carol</a>
         <a href="#admin" data-open-admin>Acesso administrativo</a>
       </div>
     </footer>
@@ -220,6 +219,17 @@
       <button class="primary-btn">Enviar comprovante</button>
       <p id="contributionMessage"></p>
     </form>
+  </dialog>
+
+  <dialog id="adminPreviewDialog" class="preview-dialog">
+    <div class="dialog-head preview-head">
+      <h3 id="previewTitle">Visualizar arquivo</h3>
+      <button type="button" id="closePreview" aria-label="Fechar">×</button>
+    </div>
+    <div class="preview-body" id="previewBody"></div>
+    <div class="preview-actions">
+      <a id="openPreviewNewTab" class="outline-btn" href="#" target="_blank" rel="noopener">Abrir em nova aba</a>
+    </div>
   </dialog>
 
   <script src="/app.js" defer></script>
