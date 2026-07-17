@@ -404,7 +404,7 @@ async function loadContributions() {
       ? `<div class="wall-review">
           <small><strong>Mural:</strong> revise a mensagem, a foto e o comprovante antes de aprovar.</small>
           ${item.wallMessage ? `<p>${escapeHtml(item.wallMessage)}</p>` : "<small>Sem mensagem para o mural.</small>"}
-          ${item.wallImageOriginalName ? `<button data-wall-image="${item.id}">Ver foto do mural</button>` : "<small>Sem foto para o mural.</small>"}
+          ${item.wallImageOriginalName ? `<button data-wall-image="${item.id}">Visualizar foto do mural</button>` : "<small>Sem foto para o mural.</small>"}
         </div>`
       : "<small>Não deseja aparecer no mural.</small>";
     row.innerHTML = `
@@ -415,7 +415,7 @@ async function loadContributions() {
         ${wallReview}
       </div>
       <div class="row-actions">
-        <button data-receipt="${item.id}">Comprovante</button>
+        <button data-receipt="${item.id}">Visualizar comprovante</button>
         <button class="ok" data-approve="${item.id}">Aprovar e publicar</button>
         <button class="danger" data-reject="${item.id}">Rejeitar</button>
       </div>`;

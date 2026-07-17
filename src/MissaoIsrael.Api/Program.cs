@@ -126,7 +126,7 @@ app.MapGet("/api/contribution/{id:guid}/wall-image", async (Guid id, Contributio
     try
     {
         var image = await service.OpenWallImageAsync(id, publicOnly: true, ct);
-        return Results.File(image.Stream, "application/octet-stream", image.FileName);
+        return Results.File(image.Stream, GetPreviewContentType(image.FileName), enableRangeProcessing: true);
     }
     catch (InvalidOperationException ex) { return Results.BadRequest(new { message = ex.Message }); }
 });
@@ -238,7 +238,7 @@ admin.MapGet("/contribution/{id:guid}/receipt", async (Guid id, ContributionServ
     try
     {
         var receipt = await service.OpenReceiptAsync(id, ct);
-        return Results.File(receipt.Stream, "application/octet-stream", receipt.FileName);
+        return Results.File(receipt.Stream, GetPreviewContentType(receipt.FileName), enableRangeProcessing: true);
     }
     catch (InvalidOperationException ex) { return Results.BadRequest(new { message = ex.Message }); }
 });
@@ -248,7 +248,7 @@ admin.MapGet("/contribution/{id:guid}/wall-image", async (Guid id, ContributionS
     try
     {
         var image = await service.OpenWallImageAsync(id, publicOnly: false, ct);
-        return Results.File(image.Stream, "application/octet-stream", image.FileName);
+        return Results.File(image.Stream, GetPreviewContentType(image.FileName), enableRangeProcessing: true);
     }
     catch (InvalidOperationException ex) { return Results.BadRequest(new { message = ex.Message }); }
 });
@@ -256,6 +256,18 @@ admin.MapGet("/contribution/{id:guid}/wall-image", async (Guid id, ContributionS
 app.MapFallbackToFile("index.html");
 
 app.Run();
+
+static string GetPreviewContentType(string fileName)
+{
+    return Path.GetExtension(fileName).ToLowerInvariant() switch
+    {
+        ".jpg" or ".jpeg" => "image/jpeg",
+        ".png" => "image/png",
+        ".webp" => "image/webp",
+        ".pdf" => "application/pdf",
+        _ => "application/octet-stream"
+    };
+}
 
 static async ValueTask<object?> AdminAuthFilter(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
 {
